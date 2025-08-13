@@ -1,59 +1,43 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { Route,Routes } from 'react-router-dom';
+import { RESR_HOST_NAME, SERVICE_ENDPOINT } from './backend';
+import Services from './pages/Services';
+import ServiceDetails from './pages/ServiceDetails';
+import EditServiceDetails from './pages/EditServiceDetails';
+import AddServiceDetails from './pages/AddServiceDetails';
+
+
+
 
 function App() {
   const [allData,setAllData] =useState([])
-
-
- const API = "https://6894a313be3700414e13f330.mockapi.io/services";
+  const [error,setError] = useState("")
  useEffect(()=>{
-      fetch("https://6894a313be3700414e13f330.mockapi.io/services",{method:"GET",})
+      fetch(`${RESR_HOST_NAME}/${SERVICE_ENDPOINT}`,{method:"GET",})
        .then((response)=>response.json())
        .then((data)=> setAllData(data))
        .catch((err)=> console.log(err));
  },[]);
+
+
   return (
     <>
-         <div className="servicepage">
-          <Search/>
-          <div className='bottom'>
-          {allData.map((details,idx)=>(
-              <Servicecard serviceDetails={details} key={idx}/>
-          ))}
-          </div>
-        </div>
+      <Routes>
+        <Route exact path='/' element={ <Services Data={allData} />}/>
+        <Route path="/services/add" element={<AddServiceDetails/>}/>
+         <Route path="/services/edit/:id" element={<EditServiceDetails/>}/>
+        <Route path="/services/:id" element={<ServiceDetails/>}/>
+        <Route path='/nopage' element={<h1>no page</h1>}/>
+      </Routes>
+    
     </>
   )
 }
 
  export default App;
+  
 
-function Search(){
-    return(
-        <div className='top'>
-        <input type="text" placeholder='service search'/>
-        <button className='btn'>Search</button>
-    </div>
-    )
-}
 
- function Servicecard({serviceDetails}){  
-    return(
-        <div className="servicecard">
-           <div className='head'>
-            <div className='topic'>Service</div>
-             <div className='loc'>Location : {serviceDetails.location} </div>
-           </div>
-           <div className='body'>
-                 <div className='content'>
-                     <div className='locs'>Vechicle Type : {serviceDetails.vechicle_type}</div>
-                      <div className='loc'>Date of service :{new Date().toLocaleString().slice(0, 9)}</div>
-                      <div className='loc'>Date of delivery: {new Date().toLocaleString().slice(0, 9)} </div>
-                      <div className='locs'>Vechicle name: {serviceDetails.vechicle_name }</div>
-                 </div>
-                 <div className='amount'> Service amount : {serviceDetails.service_amount}</div>
-           </div>
-        </div>
-    )
- }
+
 
