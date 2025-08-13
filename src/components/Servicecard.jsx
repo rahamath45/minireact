@@ -1,6 +1,23 @@
+import { useNavigate } from "react-router-dom";
+import { RESR_HOST_NAME, SERVICE_ENDPOINT } from "../backend";
 
 
-  function Servicecard({serviceDetails}){  
+  function Servicecard({serviceDetails,allData,setAllData}){  
+    const navigate = useNavigate();
+     async function deleteService(id){
+      try{
+        let response = await fetch(`${RESR_HOST_NAME}/${SERVICE_ENDPOINT}/${id}`,{
+          method:"DELETE"
+        });
+        let data = await response.json();
+        if(data){
+           let deleteService = allData.filter((details)=> details.id !== id);
+           setAllData([...deleteService]);
+        }
+      }catch(error){
+        console.log(error)
+      }
+     }
     return(
         <div className="servicecard" >
            <div className='head'>
@@ -16,8 +33,9 @@
                       <div className='amount'> Service amount : {serviceDetails.service_amount}</div>
                  </div>
                     <div className="button">
-                      <button>EDIT</button>
-                      <button>DELETE</button>
+                      <button onClick={()=> navigate(`/services/${serviceDetails.id}`)}>view</button>
+                      <button onClick={()=>navigate(`/services/edit/${serviceDetails.id}`)}>EDIT</button>
+                      <button onClick={()=>deleteService(serviceDetails.id)}>DELETE</button>
                     </div>
            </div>
         </div>

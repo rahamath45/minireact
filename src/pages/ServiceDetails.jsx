@@ -11,7 +11,7 @@ const  ServiceDetails = ()=>{
        .then((response)=>response.json())
        .then((data)=> setDetails(data))
        .catch((err)=> console.log(err));
- },[]);
+ },[id]);
     return (
         <div className="router">
           <Servicecard serviceDetails={details}/>

@@ -24,9 +24,13 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path='/' element={ <Services Data={allData} />}/>
-        <Route path="/services/add" element={<AddServiceDetails/>}/>
-         <Route path="/services/edit/:id" element={<EditServiceDetails/>}/>
+        <Route exact path='/' element={ <Services Data={allData} setAllData={setAllData}/>}/>
+        <Route 
+        path="/services/add" 
+        element={<AddServiceDetails Data={allData} setAllData={setAllData}/>}/>
+
+         <Route path="/services/edit/:id" 
+         element={<EditServiceDetails Data={allData} setAllData={setAllData}/>}/>
         <Route path="/services/:id" element={<ServiceDetails/>}/>
         <Route path='/nopage' element={<h1>no page</h1>}/>
       </Routes>

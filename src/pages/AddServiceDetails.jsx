@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { RESR_HOST_NAME,  SERVICE_ENDPOINT } from "../backend";
 import { useNavigate } from "react-router-dom";
  
- const AddServiceDetails = () => {
+ const AddServiceDetails = ({Data,setAllData}) => {
     const [service_provider, setServiceName] = useState("");
   const [vechicle_type, setVechicle_type] = useState("");
   const [vechicle_number, setVechicle_number] = useState();
@@ -39,6 +39,7 @@ import { useNavigate } from "react-router-dom";
       });
       let data = await response.json();
       if (data) {
+          setAllData([...Data,data]);
         navigate("/");
       }
     } catch (error) {

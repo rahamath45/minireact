@@ -1,17 +1,18 @@
 import Servicecard from './Servicecard';
 import Search from './Search';
-import { useNavigate } from 'react-router-dom';
 
 
-function Servicepage({allData}){
-    const navigate = useNavigate();
+
+function Servicepage({allData,setAllData}){
+   
     return(
         <div className="servicepage">
           <Search/>
           <div className='bottom'>
           {allData.map((details,idx)=>(
-            <div onClick={()=>navigate(`/services/${details.id}`)}>
-              <Servicecard serviceDetails={details} key={idx}/>
+            <div >
+              <Servicecard serviceDetails={details}
+               key={idx} setAllData={setAllData} allData={allData}/>
               </div>
           ))}
           </div>
