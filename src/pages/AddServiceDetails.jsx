@@ -1,8 +1,9 @@
 
   import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { RESR_HOST_NAME,  SERVICE_ENDPOINT } from "../backend";
 import { useNavigate } from "react-router-dom";
+import { addNewService } from "../handlers/apiHandler";
+
  
  const AddServiceDetails = ({Data,setAllData}) => {
     const [service_provider, setServiceName] = useState("");
@@ -17,7 +18,6 @@ import { useNavigate } from "react-router-dom";
   const [insurance_due_date, setInsurance_due_date] = useState();
   const navigate = useNavigate();
   const createNewService = async () => {
-    try {
       const newService = {
         service_provider,
         vechicle_type,
@@ -30,21 +30,12 @@ import { useNavigate } from "react-router-dom";
         location,
         insurance_due_date,
       };
-      let response = await fetch(`${RESR_HOST_NAME}/${SERVICE_ENDPOINT}`, {
-        method: "POST",
-        body: JSON.stringify(newService),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      let data = await response.json();
-      if (data) {
-          setAllData([...Data,data]);
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      addNewService(newService).then((data)=>{
+        if(data){
+            setAllData([...Data,data]);
+            navigate("/")
+        }
+      }).catch((err)=>console.log(err))
   };
 
    return (

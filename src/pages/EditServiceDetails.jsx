@@ -3,6 +3,7 @@
 import  { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { RESR_HOST_NAME, SERVICE_ENDPOINT } from "../backend";
+import { editService } from "../handlers/apiHandler";
 
 
 const EditServiceDetails = ({Data,setAllData}) => {
@@ -53,20 +54,12 @@ const EditServiceDetails = ({Data,setAllData}) => {
       location,
       insurance_due_date,
     };
-    let response = await fetch(`${RESR_HOST_NAME}/${SERVICE_ENDPOINT}/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(updatedService),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    let data = await response.json();
-    if (data) {
+    editService(id,updatedService).then((data)=>{
       const selectedServiceIndex = Data.findIndex((details)=>details.id == id);
         Data[selectedServiceIndex] = data;
         setAllData([...Data]);
       navigate("/");
-    }
+    }).catch((err)=>console.log(err))
   }
   return (
     <>

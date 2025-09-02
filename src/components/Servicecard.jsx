@@ -1,22 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { RESR_HOST_NAME, SERVICE_ENDPOINT } from "../backend";
+import { deleteServiceByID } from "../handlers/apiHandler";
 
 
   function Servicecard({serviceDetails,allData,setAllData}){  
     const navigate = useNavigate();
      async function deleteService(id){
-      try{
-        let response = await fetch(`${RESR_HOST_NAME}/${SERVICE_ENDPOINT}/${id}`,{
-          method:"DELETE"
-        });
-        let data = await response.json();
-        if(data){
-           let deleteService = allData.filter((details)=> details.id !== id);
-           setAllData([...deleteService]);
-        }
-      }catch(error){
-        console.log(error)
-      }
+            deleteServiceByID(id).then((data)=>{
+              if(data){
+                 let deleteService = allData.filter((details)=> details.id !== id);
+                     setAllData([...deleteService]);
+              }
+            }).catch((error)=> console.log(error))
+      
      }
     return(
         <div className="servicecard" >

@@ -12,7 +12,8 @@ function Servicepage({allData,setAllData}){
           {allData.map((details,idx)=>(
             <div >
               <Servicecard serviceDetails={details}
-               key={idx} setAllData={setAllData} allData={allData}/>
+               key={idx} setAllData={setAllData} 
+               allData={allData}/>
               </div>
           ))}
           </div>
